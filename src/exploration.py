@@ -94,3 +94,16 @@ print("Last valid price timestamp:", df.loc[price, "utc_timestamp"].max())
 # 2. Check missing price percentage by year
 df["year"] = pd.to_datetime(df["utc_timestamp"]).dt.year
 print("\nMissing price % by year:\n", df.groupby("year")["AT_price_day_ahead"].apply(lambda s: s.isna().mean() * 100).round(2))
+
+missing = df["AT_wind_onshore_generation_actual"].isna()
+
+changes = missing.astype(int).diff()
+
+starts = changes[changes == 1]
+ends = changes[changes == -1]
+
+print("Starts:")
+print(starts)
+
+print("\nEnds:")
+print(ends)
